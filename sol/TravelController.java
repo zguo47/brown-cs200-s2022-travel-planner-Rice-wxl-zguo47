@@ -3,9 +3,13 @@ package sol;
 import src.City;
 import src.ITravelController;
 import src.Transport;
+import src.TravelCSVParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 public class TravelController implements ITravelController<City, Transport> {
 
@@ -20,6 +24,22 @@ public class TravelController implements ITravelController<City, Transport> {
 
     @Override
     public String load(String citiesFile, String transportFile) {
+
+        this.graph = new TravelGraph();
+        TravelCSVParser parser = new TravelCSVParser();
+
+        Function<Map<String, String>, Void> addVertex = map -> {
+            this.graph.addVertex(new City(map.get("name")));
+            return null; // need explicit return null to account for Void type
+        };
+
+        try {
+            // pass in string for CSV and function to create City (vertex) using city name
+            parser.parseLocations(citiesFile, addVertex);
+        } catch (IOException e) {
+            return "Error parsing file: " + citiesFile;
+        }
+
         // TODO: instantiate a new Graph object in the graph field
 
         // TODO: create an instance of the TravelCSVParser
