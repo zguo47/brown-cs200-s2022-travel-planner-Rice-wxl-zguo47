@@ -17,42 +17,44 @@ public class TravelGraph implements IGraph<City, Transport> {
 
     @Override
     public void addVertex(City vertex) {
-        // TODO: implement this method!
         Set<Transport> outgoing = new HashSet<>();
         this.graph.put(vertex, outgoing);
     }
 
     @Override
     public void addEdge(City origin, Transport edge) {
-        // TODO: implement this method!
         this.graph.get(origin).add(edge);
+        origin.addOut(edge);
+        this.graph.replace(origin, this.graph.get(origin));
     }
 
     @Override
     public Set<City> getVertices() {
-        // TODO: implement this method!
         return this.graph.keySet();
 
     }
 
     @Override
     public City getEdgeSource(Transport edge) {
-        // TODO: implement this method!
         return edge.getSource();
     }
 
     @Override
     public City getEdgeTarget(Transport edge) {
-        // TODO: implement this method!
         return edge.getTarget();
     }
 
     @Override
     public Set<Transport> getOutgoingEdges(City fromVertex) {
-        // TODO: implement this method!
         return this.graph.get(fromVertex);
     }
 
-    // TODO: feel free to add your own methods here!
-    // hint: maybe you need to get a City by its name
+    public City getCity(String name){
+        for (City a : this.getVertices()) {
+            if (a.toString().equals(name)){
+                return a;
+            }
+        }
+        throw new RuntimeException();
+    }
 }
