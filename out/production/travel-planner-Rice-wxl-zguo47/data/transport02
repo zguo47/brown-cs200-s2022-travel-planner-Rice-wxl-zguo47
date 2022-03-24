@@ -1,0 +1,11 @@
+origin,destination,type,price,duration
+Earth,Sirius,plane,1700,8500
+Earth,Mars,bus,77,23008
+Earth,Mars,plane,680,500
+Earth,Mercury,bus,96,17080
+Mars,Mercury,train,300,8430
+Mars,Sirius,plane,2200,4900
+Sirius,Earth,plane,3080,12940
+Sirius,Mercury,train,820,17900
+Mercury,Sirius,bus,173,85460
+Mercury,Mars,plane,750,3700

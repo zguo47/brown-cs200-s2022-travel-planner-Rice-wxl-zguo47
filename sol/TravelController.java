@@ -89,4 +89,6 @@ public class TravelController implements ITravelController<City, Transport> {
         BFS<City, Transport> newBFS = new BFS<>();
         return newBFS.getPath(this.graph, start, end);
     }
+
+    public TravelGraph getGraph(){ return this.graph; }
 }

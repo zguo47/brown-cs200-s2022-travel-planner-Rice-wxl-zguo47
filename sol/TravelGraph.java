@@ -6,6 +6,7 @@ import src.Transport;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TravelGraph implements IGraph<City, Transport> {
@@ -57,4 +58,23 @@ public class TravelGraph implements IGraph<City, Transport> {
         }
         throw new RuntimeException();
     }
+
+    public Double getTotalPrice(List<Transport> ls){
+        Double d = 0.0;
+        for (Transport t : ls){
+            Double a = t.getPrice();
+            d = d + a;
+        }
+        return d;
+    }
+
+    public Double getTotalTime(List<Transport> ls){
+        Double d = 0.0;
+        for (Transport t : ls){
+            Double a = t.getMinutes();
+            d = d + a;
+        }
+        return d;
+    }
+
 }

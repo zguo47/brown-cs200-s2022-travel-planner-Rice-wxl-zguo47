@@ -12,9 +12,13 @@ public class Dijkstra<V, E> implements IDijkstra<V, E> {
     public List<E> getShortestPath(IGraph<V, E> graph, V source, V destination,
                                    Function<E, Double> edgeWeight) {
 
+        if (source.toString().equals(destination.toString())) {
+            return Collections.EMPTY_LIST;
+        }
+
         HashMap<V, Double> vWithWeight = new HashMap<>();
-        for (V v: graph.getVertices()) {
-            if (v.equals(source)){
+        for (V v : graph.getVertices()) {
+            if (v.equals(source)) {
                 vWithWeight.put(v, 0.0);
             } else {
                 vWithWeight.put(v, Double.POSITIVE_INFINITY);
@@ -23,8 +27,7 @@ public class Dijkstra<V, E> implements IDijkstra<V, E> {
 
         HashMap<V, E> cameFrom = new HashMap<>();
 
-
-        Comparator<V> vertexByRoute = (vertex1, vertex2)  -> {
+        Comparator<V> vertexByRoute = (vertex1, vertex2) -> {
             return Double.compare(vWithWeight.get(vertex1), vWithWeight.get(vertex2));
         };
 
@@ -47,12 +50,15 @@ public class Dijkstra<V, E> implements IDijkstra<V, E> {
             }
         }
 
-        LinkedList<E> thePath = new LinkedList<E>();
-        thePath.addFirst(cameFrom.get(destination));
-        while (!graph.getEdgeSource(thePath.getFirst()).equals(source)) {
-            thePath.addFirst(cameFrom.get(graph.getEdgeSource(thePath.getFirst())));
+        if (cameFrom.containsKey(destination)) {
+            LinkedList<E> thePath = new LinkedList<E>();
+            thePath.addFirst(cameFrom.get(destination));
+            while (!graph.getEdgeSource(thePath.getFirst()).equals(source)) {
+                thePath.addFirst(cameFrom.get(graph.getEdgeSource(thePath.getFirst())));
+            }
+            return thePath;
+        } else {
+            return Collections.EMPTY_LIST;
         }
-        return thePath;
     }
-
 }

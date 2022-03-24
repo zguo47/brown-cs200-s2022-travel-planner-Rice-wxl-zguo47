@@ -1,14 +1,22 @@
 package test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import sol.BFS;
+import sol.TravelController;
+import sol.TravelGraph;
+import src.City;
+import src.IGraph;
+import src.Transport;
 import test.simple.SimpleEdge;
 import test.simple.SimpleGraph;
 import test.simple.SimpleVertex;
 
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Your BFS tests should all go in this class!
@@ -74,5 +82,65 @@ public class BFSTest {
         assertEquals(path.size(), 2);
     }
 
-    // TODO: write more tests + make sure you test all the cases in your testing plan!
+    @Test
+    public void testMostDirectGraphOne(){
+        TravelController travelController = new TravelController();
+        travelController.load("data/cities01", "data/transport01");
+
+        List<Transport> path = travelController.mostDirectRoute("Shenzhen", "Chengdu");
+        assertEquals(path.size(), 2);
+        assertEquals(travelController.getGraph().getTotalPrice(path), 70, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path), 817, 0.001);
+
+        List<Transport> path2 = travelController.mostDirectRoute("Guangzhou", "Shanghai");
+        assertEquals(path2.size(), 2);
+        assertEquals(travelController.getGraph().getTotalPrice(path2), 173, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path2), 208, 0.001);
+
+        List<Transport> path3 = travelController.mostDirectRoute("Beijing", "Chengdu");
+        assertEquals(path3.size(), 1);
+        assertEquals(travelController.getGraph().getTotalPrice(path3), 15, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path3), 900, 0.001);
+
+        List<Transport> path4 = travelController.mostDirectRoute("Beijing", "Beijing");
+        assertEquals(path4.size(), 0);
+        assertEquals(travelController.getGraph().getTotalPrice(path4), 0, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path4), 0, 0.001);
+
+        travelController.getGraph().addVertex(new City("Xian"));
+        List<Transport> path5 = travelController.mostDirectRoute("Beijing", "Xian");
+        assertEquals(path4.size(), 0);
+        assertEquals(travelController.getGraph().getTotalPrice(path4), 0, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path4), 0, 0.001);
+
+
+    }
+
+    @Test
+    public void testMostDirectGraphTwo(){
+        TravelController travelController = new TravelController();
+        travelController.load("data/cities02", "data/transport02");
+
+        List<Transport> path = travelController.mostDirectRoute("Sirius", "Mars");
+        assertEquals(path.size(), 2);
+        assertEquals(travelController.getGraph().getTotalPrice(path), 3157, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path), 35948, 0.001);
+
+        List<Transport> path2 = travelController.mostDirectRoute("Earth", "Mars");
+        assertEquals(path2.size(), 1);
+        assertEquals(travelController.getGraph().getTotalPrice(path2), 77, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path2), 23008, 0.001);
+
+        List<Transport> path3 = travelController.mostDirectRoute("Mercury", "Mercury");
+        assertEquals(path3.size(), 0);
+        assertEquals(travelController.getGraph().getTotalPrice(path3), 0, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path3), 0, 0.001);
+
+        travelController.getGraph().addVertex(new City("Venus"));
+        List<Transport> path4 = travelController.mostDirectRoute("Mercury", "Venus");
+        assertEquals(path4.size(), 0);
+        assertEquals(travelController.getGraph().getTotalPrice(path4), 0, 0.001);
+        assertEquals(travelController.getGraph().getTotalTime(path4), 0, 0.001);
+
+    }
 }
