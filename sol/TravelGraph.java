@@ -24,6 +24,8 @@ public class TravelGraph implements IGraph<City, Transport> {
     @Override
     public void addEdge(City origin, Transport edge) {
         this.graph.get(origin).add(edge);
+        origin.addOut(edge);
+        this.graph.replace(origin, this.graph.get(origin));
     }
 
     @Override
@@ -47,8 +49,13 @@ public class TravelGraph implements IGraph<City, Transport> {
         return this.graph.get(fromVertex);
     }
 
-    public City getCity (String name){
 
+    public City getCity(String name){
+        for (City a : this.getVertices()) {
+            if (a.toString().equals(name)){
+                return a;
+            }
+        }
+        throw new RuntimeException();
     }
-    // hint: maybe you need to get a City by its name
 }

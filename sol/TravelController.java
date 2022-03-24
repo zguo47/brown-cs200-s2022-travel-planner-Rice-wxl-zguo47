@@ -5,7 +5,6 @@ import src.*;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -32,12 +31,12 @@ public class TravelController implements ITravelController<City, Transport> {
         };
 
         Function<Map<String, String>, Void> addEdge = map -> {
-            this.graph.addEdge(new City(map.get("name")), new Transport
-                    (new City(map.get("source")),
-                            new City(map.get("destination")),
+            this.graph.addEdge(this.graph.getCity(map.get("origin")), new Transport
+                    (this.graph.getCity(map.get("origin")),
+                            this.graph.getCity(map.get("destination")),
                             TransportType.fromString(map.get("type")),
                             Double.parseDouble(map.get("price")),
-                            Double.parseDouble(map.get("minutes"))));
+                            Double.parseDouble(map.get("duration"))));
             return null; // need explicit return null to account for Void type
         };
 
@@ -63,20 +62,32 @@ public class TravelController implements ITravelController<City, Transport> {
 
     @Override
     public List<Transport> fastestRoute(String source, String destination) {
-        // TODO: implement this method!
-        return new ArrayList<>();
+        Function<Transport, Double> getTime = transport -> {
+            return transport.getMinutes();
+        };
+        City start = this.graph.getCity(source);
+        City end = this.graph.getCity(destination);
+        Dijkstra<City, Transport> newDijkstra = new Dijkstra<>();
+        return newDijkstra.getShortestPath(this.graph, start, end, getTime);
     }
 
     @Override
     public List<Transport> cheapestRoute(String source, String destination) {
-        // TODO: implement this method!
 
-        return new ArrayList<>();
+        Function<Transport, Double> getMoney = transport -> {
+            return transport.getPrice();
+        };
+        City start = this.graph.getCity(source);
+        City end = this.graph.getCity(destination);
+        Dijkstra<City, Transport> newDijkstra = new Dijkstra<>();
+        return newDijkstra.getShortestPath(this.graph, start, end, getMoney);
     }
 
     @Override
     public List<Transport> mostDirectRoute(String source, String destination) {
-        // TODO: implement this method!
-        return new ArrayList<>();
+        City start = this.graph.getCity(source);
+        City end = this.graph.getCity(destination);
+        BFS<City, Transport> newBFS = new BFS<>();
+        return newBFS.getPath(this.graph, start, end);
     }
 }
