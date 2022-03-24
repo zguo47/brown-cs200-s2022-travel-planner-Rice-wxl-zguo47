@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * This class is the controller for the Travel Planner. It manages the method of loading graph and the method of
+ * calculating the path based on requirements.
+ */
 public class TravelController implements ITravelController<City, Transport> {
 
     // Why is this field of type TravelGraph and not IGraph?
@@ -17,9 +21,18 @@ public class TravelController implements ITravelController<City, Transport> {
     // Hint: perhaps you need to define a method!
     private TravelGraph graph;
 
+    /**
+     * A constructor for the TravelController.
+     */
     public TravelController() {
     }
 
+    /**
+     * generates the graph from the input files. It uses a TravelCSVParser to parse the input files.
+     * @param citiesFile    the filename of the cities csv
+     * @param transportFile the filename of the transportations csv
+     * @return the message of whether succeeds or fails to load the graph.
+     */
     @Override
     public String load(String citiesFile, String transportFile) {
         this.graph = new TravelGraph();
@@ -60,6 +73,12 @@ public class TravelController implements ITravelController<City, Transport> {
         return "Successfully loaded cities and transportation files.";
     }
 
+    /**
+     * finds the fastest route between the input source and destination. It applies the Dijkstra algorithm.
+     * @param source      the name of the source city
+     * @param destination the name of the destination city
+     * @return the fastest route in terms of a list of transports.
+     */
     @Override
     public List<Transport> fastestRoute(String source, String destination) {
         Function<Transport, Double> getTime = transport -> {
@@ -71,6 +90,12 @@ public class TravelController implements ITravelController<City, Transport> {
         return newDijkstra.getShortestPath(this.graph, start, end, getTime);
     }
 
+    /**
+     * finds the cheapest route between the input source and destination. It applies the Dijkstra algorithm.
+     * @param source      the name of the source city
+     * @param destination the name of the destination city
+     * @return the cheapest route in terms of a list of transports.
+     */
     @Override
     public List<Transport> cheapestRoute(String source, String destination) {
 
@@ -83,6 +108,13 @@ public class TravelController implements ITravelController<City, Transport> {
         return newDijkstra.getShortestPath(this.graph, start, end, getMoney);
     }
 
+    /**
+     * finds the most direct route (least number of transports) between the input source and destination.It applies
+     * the BFS algorithm.
+     * @param source      the name of the source city
+     * @param destination the name of the destination city
+     * @return the most direct route in terms of a list of transports.
+     */
     @Override
     public List<Transport> mostDirectRoute(String source, String destination) {
         City start = this.graph.getCity(source);
@@ -90,4 +122,10 @@ public class TravelController implements ITravelController<City, Transport> {
         BFS<City, Transport> newBFS = new BFS<>();
         return newBFS.getPath(this.graph, start, end);
     }
+
+    /**
+     * This method returns the created graph for the travel controller.
+     * @return
+     */
+    public TravelGraph getGraph(){ return this.graph; }
 }
