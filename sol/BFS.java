@@ -15,7 +15,8 @@ import java.util.*;
 public class BFS<V, E> implements IBFS<V, E> {
 
     /**
-     * finds the most direct path between the start and end vertices in the input graph.
+     * finds the most direct path between the start and end vertices in the
+     * input graph.
      * @param graph the graph including the vertices
      * @param start the start vertex
      * @param end   the end vertex

@@ -8,7 +8,8 @@ import java.util.Set;
 
 /**
  * A class that models a simple graph with simple edges and simple vertices.
- * You can use these Simple classes to test your BFS and Dijkstra's, but you will not be graded on
+ * You can use these Simple classes to test your BFS and Dijkstra's, but you
+ * will not be graded on
  * any tests you write using these classes.
  */
 public class SimpleGraph implements IGraph<SimpleVertex, SimpleEdge> {

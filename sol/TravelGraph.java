@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This is the TravelGraph class that creates a standard graph of cities and transports as vertices and edges,
+ * This is the TravelGraph class that creates a standard graph of cities and
+ * transports as vertices and edges,
  * respectively.
  */
 public class TravelGraph implements IGraph<City, Transport> {
@@ -24,7 +25,8 @@ public class TravelGraph implements IGraph<City, Transport> {
     }
 
     /**
-     * This method adds a city to the graph as a new vertex. Its outgoing edges is currently set to be an empty set.
+     * This method adds a city to the graph as a new vertex. Its outgoing edges
+     * is currently set to be an empty set.
      * @param vertex the vertex
      */
     @Override
@@ -34,16 +36,17 @@ public class TravelGraph implements IGraph<City, Transport> {
     }
 
     /**
-     * This method adds a new transport for the city to the graph. It updates the corresponding set of transports for
+     * This method adds a new transport for the city to the graph. It updates
+     * the corresponding set of transports for
      * the origin city.
      * @param origin the origin of the edge.
      * @param edge the edge to be put.
      */
     @Override
     public void addEdge(City origin, Transport edge) {
-        this.graph.get(origin).add(edge);
-        origin.addOut(edge);
-        this.graph.replace(origin, this.graph.get(origin));
+            this.graph.get(origin).add(edge);
+            origin.addOut(edge);
+            this.graph.replace(origin, this.graph.get(origin));
     }
 
     /**
@@ -96,11 +99,12 @@ public class TravelGraph implements IGraph<City, Transport> {
                 return a;
             }
         }
-        throw new RuntimeException();
+        throw new IllegalArgumentException("City does not exist!");
     }
 
     /**
-     * This method helps for the testing of cheapest route. It calculates the total price of the route.
+     * This method helps for the testing of cheapest route. It calculates the
+     * total price of the route.
      * @param ls a list of transports in the route.
      * @return the total price.
      */
@@ -114,7 +118,8 @@ public class TravelGraph implements IGraph<City, Transport> {
     }
 
     /**
-     * This method helps for the testing of fastest route. It calculates the total time of the route.
+     * This method helps for the testing of fastest route. It calculates the
+     * total time of the route.
      * @param ls a list of transports in the route.
      * @return the total time.
      */
